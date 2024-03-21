@@ -7,12 +7,15 @@ const openai = new OpenAI({
 });
 
 async function main() {
-  const content = await askQuestion("What do you need help with?\n");
-  console.log("\nOne moment...\n");
-
   const assistant = await openai.beta.assistants.retrieve(
     process.env.ASSISTANT_ID
   );
+
+  const content = await askQuestion(
+    `I'm your personal ${assistant.name}.\nWhat can I help you with?\n`
+  );
+
+  console.log("\nSure, one moment...\n");
 
   const thread = await openai.beta.threads.create({
     messages: [
